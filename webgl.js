@@ -1,8 +1,10 @@
 "use strict";
 
-var gl = module.exports = require('bindings')('webgl').WebGLRenderingContext;
+var WebGLContext = require('./build/Release/webgl.node').WebGLContext;
+module.exports = WebGLContext;
 
-var ENABLE_LOGGING = true;
+var gl = WebGLContext.prototype;
+
 
 gl.WebGLProgram=function (_) { this._ = _; }
 gl.WebGLShader=function (_) { this._ = _; }
@@ -479,9 +481,9 @@ gl.getAttribLocation = function getAttribLocation(program, name) {
 
 var _getParameter = gl.getParameter;
 gl.getParameter = function getParameter(pname) {
-  // if (!(arguments.length === 1 && typeof pname === "number")) {
-  //   throw new TypeError('Expected getParameter(number pname)');
-  // }
+  if (!(arguments.length === 1)) {
+    throw new TypeError('Expected getParameter(number pname)');
+  }
   return _getParameter.call(this, pname);
 }
 
@@ -795,13 +797,14 @@ gl.texImage2D = function texImage2D(target, level, internalformat, width, height
     throw new TypeError('Expected texImage2D(number target, number level, number internalformat, number width, number height, number border, number format, number type, ArrayBufferView pixels) \
         or texImage2D(number target, number level, number internalformat, number format, number type, Image pixels)');
   }
+
   if (arguments.length == 6) {
     // width is now format, height is now type, and border is now pixels
     if(!(
         typeof target === "number" &&
         typeof level === "number" && typeof internalformat === "number" &&
         typeof width === "number" && typeof height === "number" &&
-        border !== null)) {
+        (border==null || typeof border === "object"))) {
       throw new TypeError('Expected texImage2D(number target, number level, number internalformat, number format, number type, Image pixels)');
     }
     pixels=border;
@@ -896,6 +899,7 @@ gl.uniform2fv = function uniform2fv(location, v) {
   if (!(arguments.length === 2 && (location === null || location instanceof gl.WebGLUniformLocation) && typeof v === "object")) {
     throw new TypeError('Expected uniform2fv(WebGLUniformLocation location, FloatArray v)');
   }
+  console.log(arguments);
   return _uniform2fv.call(this, location ? location._ : 0, v);
 }
 
@@ -981,6 +985,7 @@ gl.uniform4iv = function uniform4iv(location, x) {
 
 var _uniformMatrix2fv = gl.uniformMatrix2fv;
 gl.uniformMatrix2fv = function uniformMatrix2fv(location, transpose, value) {
+  transpose = !!transpose;
   if (!(arguments.length === 3 && (location === null || location instanceof gl.WebGLUniformLocation) && typeof transpose === "boolean" && typeof value === "object")) {
     throw new TypeError('Expected uniformMatrix2fv(WebGLUniformLocation location, boolean transpose, FloatArray value)');
   }
@@ -998,6 +1003,7 @@ gl.uniformMatrix3fv = function uniformMatrix3fv(location, transpose, value) {
 
 var _uniformMatrix4fv = gl.uniformMatrix4fv;
 gl.uniformMatrix4fv = function uniformMatrix4fv(location, transpose, value) {
+  transpose = !!transpose;
   if (!(arguments.length === 3 && (location === null || location instanceof gl.WebGLUniformLocation) && typeof transpose === "boolean" && typeof value === "object")) {
     throw new TypeError('Expected uniformMatrix4fv(WebGLUniformLocation location, boolean transpose, FloatArray value)');
   }
@@ -1100,7 +1106,7 @@ gl.viewport = function viewport(x, y, width, height) {
   return _viewport.call(this, x, y, width, height);
 }
 
-if (ENABLE_LOGGING) {
+if (true) {
   for (var f in gl) {
     if (typeof gl[f] === 'function') {
       gl[f] = function(key, fun) {

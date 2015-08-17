@@ -1,32 +1,27 @@
 {
   "name": "gl",
-  "version": "1.0.0",
+  "version": "0.0.5",
   "description": "Creates a WebGL context without a window",
   "main": "index.js",
   "directories": {
     "test": "test"
   },
   "browser": "browser_index.js",
-  "engines": {
-    "node": ">=0.7.0"
-  },
   "scripts": {
-    "test": "node-gyp rebuild && tape test/run_test.js",
-    "build": "node-gyp rebuild",
+    "test": "tap test/run_test.js",
     "install": "node-gyp rebuild"
   },
   "dependencies": {
-    "node-gyp": "^2.0.2",
-    "nan": "^1.6.2",
-    "bindings": "^1.2.1"
+    "node-gyp": "~0.9.5"
   },
   "devDependencies": {
-    "gl-conformance": "^1.0.0",
-    "tape": "^4.0.1"
+    "jsdom": "~0.5.6",
+    "tap": "~0.4.1",
+    "canvas": ""
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/stackgl/headless-gl.git"
+    "url": "git://github.com/mikolalysenko/headless-gl.git"
   },
   "keywords": [
     "webgl",
@@ -36,8 +31,34 @@
     "server",
     "gpgpu"
   ],
-  "author": "Mikola Lysenko",
+  "author": {
+    "name": "Mikola Lysenko"
+  },
   "license": "BSD",
   "gypfile": true,
-  "readmeFilename": "README.md"
+  "gitHead": "7744c0aec3707ac931ce3534d8c13fe0c8b7147b",
+  "bugs": {
+    "url": "https://github.com/mikolalysenko/headless-gl/issues"
+  },
+  "homepage": "https://github.com/mikolalysenko/headless-gl",
+  "_id": "gl@0.0.5",
+  "dist": {
+    "shasum": "306a456a5126de01bb53b5ecb9383bfbebc44b37",
+    "tarball": "http://registry.npmjs.org/gl/-/gl-0.0.5.tgz"
+  },
+  "_from": "gl@",
+  "_npmVersion": "1.4.3",
+  "_npmUser": {
+    "name": "mikolalysenko",
+    "email": "mikolalysenko@gmail.com"
+  },
+  "maintainers": [
+    {
+      "name": "mikolalysenko",
+      "email": "mikolalysenko@gmail.com"
+    }
+  ],
+  "_shasum": "306a456a5126de01bb53b5ecb9383bfbebc44b37",
+  "_resolved": "https://registry.npmjs.org/gl/-/gl-0.0.5.tgz",
+  "readme": "ERROR: No README data found!"
 }
